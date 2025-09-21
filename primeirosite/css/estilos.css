@@ -1,0 +1,13 @@
+.botoes{
+    background-color: #3498db;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.botoes:hover{
+    background-color: #2980b9;
+}

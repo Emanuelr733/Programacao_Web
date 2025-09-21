@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+    <title>::Meu primeiro site::</title>
+    <link rel="stylesheet" type="text/css" href="css/estilos.css">
+</head>
+<body>
+    <!-- Formulario de coleta do nome -->
+    <form name="frmDados" action="processa.php" method="post">
+        Nome:<input type="text" name="txtNome" placeholder="Digite seu nome">
+        <br>
+        <br>
+        <input type="reset" name="bntLimpar" value="Limpar">
+        <input type="submit" name="btnEnviar" value="Enviar" >
+        <br>
+        <br>
+        <button name="btnMostrar" class="botoes" onclick="mensagem()">
+            Mostrar
+        </button>
+        <button name="botao" id="botao">Stalker</button>
+    </form>
+    <!-- meus scripts -->
+    <script src="js/acoes.js"></script>
+</body>
+</html>
