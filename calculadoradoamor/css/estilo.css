@@ -1,0 +1,598 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Comic Sans MS', 'Segoe UI Emoji', cursive;
+    background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 20%, #ffecd2 40%, #fcb69f 60%, #ffc3a0 80%, #ff9a9e 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+    cursor: none;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 50% 100%; }
+    50% { background-position: 100% 50%; }
+    75% { background-position: 50% 0%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Nuvens fofas flutuantes - SEM INTERFERIR NO TEXTO */
+.cloud {
+    position: fixed;
+    font-size: 60px;
+    opacity: 0.15;
+    animation: floatCloud 25s infinite linear;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.cloud:nth-child(1) { top: 5%; animation-delay: 0s; }
+.cloud:nth-child(2) { top: 25%; animation-delay: 8s; }
+.cloud:nth-child(3) { top: 45%; animation-delay: 16s; }
+.cloud:nth-child(4) { top: 65%; animation-delay: 4s; }
+.cloud:nth-child(5) { top: 85%; animation-delay: 12s; }
+.cloud:nth-child(6) { top: 15%; animation-delay: 20s; }
+
+@keyframes floatCloud {
+    0% { transform: translateX(-150px); }
+    100% { transform: translateX(calc(100vw + 150px)); }
+}
+
+/* Estrelinhas piscando - ATRÁS DE TUDO */
+.star {
+    position: fixed;
+    font-size: 20px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.2;
+    animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.3); }
+}
+
+/* Cursor ULTRA FOFO com brilho mágico */
+#custom-cursor {
+    position: fixed;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ff1493, #ff69b4, #ffb6c1);
+    pointer-events: none;
+    z-index: 10000;
+    transition: transform 0.15s ease;
+    box-shadow: 0 0 25px rgba(255, 20, 147, 0.9), 
+                0 0 50px rgba(255, 105, 180, 0.7),
+                0 0 75px rgba(255, 182, 193, 0.5);
+    animation: cursorMegaPulse 2s infinite ease-in-out;
+}
+
+@keyframes cursorMegaPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 20, 147, 0.9); }
+    50% { transform: scale(1.3); box-shadow: 0 0 40px rgba(255, 20, 147, 1), 0 0 80px rgba(255, 105, 180, 0.8); }
+}
+
+#custom-cursor::before {
+    content: '✨';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    animation: cursorSparkleTop 1.2s infinite ease-in-out;
+}
+
+#custom-cursor::after {
+    content: '💖';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    animation: cursorSparkleBottom 1.2s infinite ease-in-out;
+}
+
+@keyframes cursorSparkleTop {
+    0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 1; }
+    50% { transform: translateX(-50%) translateY(-8px) rotate(180deg); opacity: 0.6; }
+}
+
+@keyframes cursorSparkleBottom {
+    0%, 100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+    50% { transform: translateX(-50%) translateY(8px) scale(1.3); opacity: 0.6; }
+}
+
+/* Borboletas - NÃO PODEM TAMPAN TEXTO */
+.butterfly {
+    position: fixed;
+    font-size: 32px;
+    pointer-events: none;
+    z-index: 5;
+    animation: flutter 1.8s infinite ease-in-out;
+    filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.6));
+    transition: all 0.4s ease;
+}
+
+@keyframes flutter {
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    25% { transform: translateY(-12px) rotate(-10deg) scale(1.15); }
+    50% { transform: translateY(0) rotate(0deg) scale(1); }
+    75% { transform: translateY(-12px) rotate(10deg) scale(1.15); }
+}
+
+/* Formulário ULTRA MEGA FOFO */
+form {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 240, 245, 0.98) 100%);
+    padding: 40px;
+    border-radius: 50px;
+    box-shadow: 0 40px 100px rgba(255, 105, 180, 0.6), 
+                0 20px 60px rgba(255, 20, 147, 0.4),
+                inset 0 0 40px rgba(255, 182, 193, 0.3);
+    backdrop-filter: blur(25px);
+    position: relative;
+    z-index: 100;
+    border: 6px solid transparent;
+    background-image: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 240, 245, 0.98)),
+        linear-gradient(135deg, #ff9a9e, #fecfef, #ffd1ff, #a8edea, #fed6e3, #ff9a9e);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    animation: formMegaGlow 4s infinite ease-in-out;
+}
+
+@keyframes formMegaGlow {
+    0%, 100% { 
+        box-shadow: 0 40px 100px rgba(255, 105, 180, 0.6);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 50px 120px rgba(255, 105, 180, 0.9), 0 0 60px rgba(255, 20, 147, 0.5);
+        transform: scale(1.01);
+    }
+}
+
+/* Decoração ao redor do formulário */
+form::before {
+    content: '🌸 🦋 ✨ 💖 ✨ 🦋 🌸';
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    animation: decorationFloat 3s infinite ease-in-out;
+    white-space: nowrap;
+    z-index: 101;
+}
+
+form::after {
+    content: '💕 ⭐ 🎀 ⭐ 💕';
+    position: absolute;
+    bottom: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 26px;
+    animation: decorationFloat 3s infinite ease-in-out 1.5s;
+    white-space: nowrap;
+    z-index: 101;
+}
+
+@keyframes decorationFloat {
+    0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+    50% { transform: translateX(-50%) translateY(-12px) scale(1.1); }
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border: none !important;
+    width: 100%;
+    max-width: 650px;
+    position: relative;
+    z-index: 102;
+}
+
+table td {
+    border: none !important;
+    padding: 20px 30px;
+    color: #ff1493;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+    position: relative;
+    z-index: 102;
+}
+
+.secao-titulo {
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 25%, #ff1493 50%, #c44569 75%, #ff6b9d 100%);
+    background-size: 300% 300%;
+    animation: titleMegaGradient 4s ease infinite, titleBounce 3s infinite ease-in-out;
+    color: white;
+    font-size: 3.2em;
+    font-weight: bold;
+    padding: 40px !important;
+    text-align: center;
+    border-radius: 40px 40px 0 0;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5),
+                 0 0 30px rgba(255, 255, 255, 0.6),
+                 0 0 50px rgba(255, 105, 180, 0.8);
+    position: relative;
+    overflow: hidden;
+    z-index: 102;
+}
+
+@keyframes titleMegaGradient {
+    0%, 100% { background-position: 0% 50%; }
+    33% { background-position: 50% 100%; }
+    66% { background-position: 100% 50%; }
+}
+
+@keyframes titleBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.secao-titulo::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.4), transparent 30%);
+    animation: superShine 3s infinite linear;
+}
+
+@keyframes superShine {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.secao-titulo::after {
+    content: '✨💖💕💗💓💕💖✨';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    animation: titleHearts 2s infinite ease-in-out;
+    z-index: 1;
+}
+
+@keyframes titleHearts {
+    0%, 100% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.15); }
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 22px 30px;
+    border: 5px solid #ffb6c1;
+    border-radius: 35px;
+    font-size: 1.2em;
+    transition: all 0.4s ease;
+    background: linear-gradient(135deg, rgba(255, 250, 250, 1), rgba(255, 240, 245, 1));
+    font-family: 'Comic Sans MS', cursive;
+    font-weight: bold;
+    color: #ff1493;
+    box-shadow: inset 0 3px 15px rgba(255, 105, 180, 0.2),
+                0 5px 20px rgba(255, 182, 193, 0.3);
+    position: relative;
+    z-index: 102;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #ff1493;
+    box-shadow: 0 0 40px rgba(255, 105, 180, 0.8),
+                0 0 60px rgba(255, 20, 147, 0.6),
+                inset 0 0 25px rgba(255, 182, 193, 0.4);
+    transform: scale(1.04);
+    background: linear-gradient(135deg, white, rgba(255, 240, 245, 1));
+    animation: inputMegaGlow 2s infinite ease-in-out;
+}
+
+@keyframes inputMegaGlow {
+    0%, 100% { 
+        box-shadow: 0 0 40px rgba(255, 105, 180, 0.8); 
+    }
+    50% { 
+        box-shadow: 0 0 60px rgba(255, 105, 180, 1), 
+                    0 0 80px rgba(255, 20, 147, 0.7); 
+    }
+}
+
+input[type="text"]::placeholder {
+    color: #ffb6c1;
+    font-style: italic;
+}
+
+td[align="center"] {
+    font-size: 3.5em;
+    color: #ff1493;
+    font-weight: bold;
+    text-shadow: 4px 4px 8px rgba(255, 20, 147, 0.5);
+    animation: plusMegaBounce 2s infinite ease-in-out;
+    position: relative;
+    z-index: 102;
+}
+
+@keyframes plusMegaBounce {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.3) rotate(90deg); }
+    50% { transform: scale(1) rotate(180deg); }
+    75% { transform: scale(1.3) rotate(270deg); }
+}
+
+input[type="submit"] {
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 25%, #ff1493 50%, #c44569 75%, #ff6b9d 100%);
+    background-size: 300% 300%;
+    animation: buttonMegaGradient 4s ease infinite;
+    color: white;
+    border: none;
+    padding: 22px 60px;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.6),
+                0 5px 15px rgba(255, 20, 147, 0.4);
+    font-family: 'Comic Sans MS', cursive;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: relative;
+    overflow: hidden;
+    z-index: 102;
+}
+
+@keyframes buttonMegaGradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+input[type="submit"]::before {
+    content: '✨';
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    animation: buttonSparkleLeft 1.5s infinite ease-in-out;
+}
+
+input[type="submit"]::after {
+    content: '✨';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    animation: buttonSparkleRight 1.5s infinite ease-in-out;
+}
+
+@keyframes buttonSparkleLeft {
+    0%, 100% { transform: translateY(-50%) rotate(0deg) scale(1); }
+    50% { transform: translateY(-50%) rotate(180deg) scale(1.3); }
+}
+
+@keyframes buttonSparkleRight {
+    0%, 100% { transform: translateY(-50%) rotate(0deg) scale(1); }
+    50% { transform: translateY(-50%) rotate(-180deg) scale(1.3); }
+}
+
+input[type="submit"]:hover {
+    transform: translateY(-8px) scale(1.1);
+    box-shadow: 0 20px 50px rgba(255, 105, 180, 0.8),
+                0 10px 30px rgba(255, 20, 147, 0.6);
+    animation: buttonWiggle 0.6s ease infinite, buttonMegaGradient 4s ease infinite;
+}
+
+@keyframes buttonWiggle {
+    0%, 100% { transform: translateY(-8px) scale(1.1) rotate(0deg); }
+    25% { transform: translateY(-8px) scale(1.1) rotate(-3deg); }
+    50% { transform: translateY(-8px) scale(1.1) rotate(0deg); }
+    75% { transform: translateY(-8px) scale(1.1) rotate(3deg); }
+}
+
+input[type="submit"]:active {
+    transform: translateY(0) scale(1.05);
+}
+
+/* Página de Resultado - MÁXIMA FOFURA SEM TAMPAR TEXTO */
+.resultado {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 240, 245, 0.98) 100%);
+    padding: 100px 60px;
+    border-radius: 50px;
+    box-shadow: 0 50px 120px rgba(255, 105, 180, 0.8),
+                0 25px 70px rgba(255, 20, 147, 0.6),
+                inset 0 0 50px rgba(255, 182, 193, 0.4);
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    backdrop-filter: blur(30px);
+    font-size: 2.3em;
+    color: #c44569;
+    font-weight: bold;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 8px solid transparent;
+    background-image: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 240, 245, 0.98)),
+        linear-gradient(135deg, #ff9a9e, #fecfef, #ffd1ff, #a8edea, #fed6e3, #ff9a9e);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    animation: resultMegaGlow 3s infinite ease-in-out;
+    text-shadow: 3px 3px 6px rgba(255, 255, 255, 0.9),
+                 0 0 20px rgba(255, 105, 180, 0.5);
+    z-index: 100;
+}
+
+@keyframes resultMegaGlow {
+    0%, 100% { 
+        box-shadow: 0 50px 120px rgba(255, 105, 180, 0.8);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 60px 150px rgba(255, 105, 180, 1), 
+                    0 0 80px rgba(255, 20, 147, 0.8);
+        transform: scale(1.03);
+    }
+}
+
+/* Coração Pulsante MEGA GIGANTE - ATRÁS DO TEXTO */
+.resultado::before {
+    content: '❤️';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 350px;
+    opacity: 0.08;
+    animation: ultraHeartbeat 1.5s infinite ease-in-out;
+    z-index: -1;
+    filter: drop-shadow(0 0 50px rgba(255, 20, 147, 0.4));
+}
+
+@keyframes ultraHeartbeat {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.08;
+    }
+    7% { 
+        transform: translate(-50%, -50%) scale(1.25);
+        opacity: 0.15;
+    }
+    14% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.08;
+    }
+    21% { 
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.12;
+    }
+    28%, 100% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.08;
+    }
+}
+
+/* Decoração de corações - NUNCA TAMPAN O TEXTO */
+.resultado::after {
+    content: '💕 💖 💗 💓 💘 💝 💞 💟 ❣️ 💕';
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+    opacity: 0.5;
+    letter-spacing: 18px;
+    animation: heartWave 4s infinite ease-in-out;
+    z-index: 101;
+}
+
+@keyframes heartWave {
+    0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+    50% { transform: translateX(-50%) translateY(-18px) scale(1.1); }
+}
+
+/* Partículas - TODAS ATRÁS DO CONTEÚDO */
+.heart-particle {
+    position: fixed;
+    font-size: 28px;
+    pointer-events: none;
+    z-index: 5;
+    animation: rise 5s linear forwards;
+    filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.9));
+}
+
+@keyframes rise {
+    0% {
+        opacity: 0.9;
+        transform: translateY(0) rotate(0deg) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-200px) rotate(720deg) scale(1.8);
+    }
+}
+
+.sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 5;
+    animation: sparkleFloat 4s linear forwards;
+}
+
+@keyframes sparkleFloat {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.5) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-120px) scale(2) rotate(360deg);
+    }
+}
+
+/* Arco-íris - ATRÁS DE TUDO */
+.rainbow {
+    position: fixed;
+    font-size: 120px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.2;
+    animation: rainbowMegaSpin 15s infinite linear;
+}
+
+@keyframes rainbowMegaSpin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .secao-titulo {
+        font-size: 2.5em;
+        padding: 30px !important;
+    }
+    
+    input[type="text"] {
+        font-size: 1.1em;
+        padding: 18px 25px;
+    }
+    
+    .resultado {
+        font-size: 1.8em;
+        padding: 70px 40px;
+    }
+    
+    .resultado::before {
+        font-size: 220px;
+    }
+    
+    input[type="submit"] {
+        padding: 18px 45px;
+        font-size: 1.3em;
+    }
+    
+    td[align="center"] {
+        font-size: 3em;
+    }
+}

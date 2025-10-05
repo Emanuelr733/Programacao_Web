@@ -200,6 +200,231 @@
                 </td>
             </tr>
 
+            <!-- secao: campos numericos -->
+            <tr>
+                <td colspan="2" class="subsecao-titulo">
+                    Campos Num&eacute;ricos e de intervalo
+                </td>
+            </tr>
+
+            <!-- input number - campo numerico com setas de incremento-->
+            <tr>
+                <td>Idade:</td>
+                <td>
+                    <input 
+                        type="number"
+                        name="txtIdade"
+                        id="txtIdade"
+                        min="1"
+                        max="120"
+                        step="1"
+                        value="25"
+                        oninput="atualizaOutIdade()"
+                    />
+                    <output id="outIdade">25</output> anos
+                    <small>(Use as setas ou digite)</small>
+                </td>
+            </tr>
+
+            <!-- input range - controle deslizante para selecao de valor -->
+            <tr>
+                <td>Nivel de Satisfacao:</td>
+                <td>
+                    <input 
+                        type="range"
+                        name="rngSatisfacao"
+                        id="rngSatisfacao"
+                        min="0"
+                        max="10"
+                        value="5"
+                        oninput="atualizaOutSatisfacao()"
+                    />
+                    Nota: <output id="outSatisfacao">5</output>/10
+                    <small>(Arraste o controle)</small>
+                </td>
+            </tr>
+
+            <!-- <tr>
+                <td colspan="2"> 
+                    <table border="1px" height="300px" align="center" class="equalizador">
+                        <tr align="">
+                            <td>Equalizador:</td>
+                            <td>
+                                Agudo
+                                <input 
+                                    type="range"
+                                    id="rngAgudo"
+                                    min="0"
+                                    max="5"
+                                    class="range-equalizador"
+                                    value="3">
+                            </td>
+                            <td>
+                                AgudoMedio
+                                <input 
+                                    type="range"
+                                    id="rngAgudoMedio"
+                                    min="0"
+                                    max="5"
+                                    class="range-equalizador"
+                                    value="3">
+                            </td>
+                            <td>
+                                Medio
+                                <input 
+                                    type="range"
+                                    id="rngMedio"
+                                    min="0"
+                                    max="5"
+                                    class="range-equalizador"
+                                    value="3">
+                            </td>
+                            <td>
+                                GraveMedio
+                                <input 
+                                    type="range"
+                                    id="rngGraveMedio"
+                                    min="0"
+                                    max="5"
+                                    class="range-equalizador"
+                                    value="3">
+                            </td>
+                            <td>
+                                Grave
+                                <input 
+                                    type="range"
+                                    id="rngGrave"
+                                    min="0"
+                                    max="5"
+                                    class="range-equalizador"
+                                    value="3">
+                            </td>
+                            <td>
+                                Geral
+                                <input 
+                                    type="range"
+                                    id="rngGeral"
+                                    min="0"
+                                    max="5"
+                                    class="range-equalizador"
+                                    value="3"
+                                    oninput="outEqualizador()"
+                                    >
+                                    
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr> -->
+
+            <!-- input date - seletor de data -->
+            <tr>
+                <td>Data de Nascimento:</td>
+                <td>
+                    <input
+                        type="date"
+                        name="txtDataNascimento"
+                        id="txtDataNascimento"
+                        min="1900-01-01"
+                        max="2025-10-01"
+                    />
+                    <small>(Formato: dd/mm/aaaa)</small>
+                </td>
+            </tr>
+
+            <!-- input time - seletor de horario -->
+
+            <tr>
+                <td>Horario Preferencial:</td>
+                <td>
+                    <input
+                        type="time"
+                        name="txtHorario"
+                        id="txtHorario"
+                    />
+                    <small>(Formato: hh:mm)</small>
+                </td>
+            </tr>
+
+            <!-- input datetime-local - seletor de data e hora combinados -->
+            <tr>
+                <td>Data e hora do agendamento:</td>
+                <td>
+                    <input 
+                        type="datetime-local"
+                        name="txtAgendamento"
+                        id="txtAgendamento"
+                    />
+                    <small>(Data e hora local)</small>
+                </td>
+            </tr>
+
+            <!-- input month - seletor de mes e ano -->
+
+            <tr>
+                <td>Mes de Referencia::</td>
+                <td>
+                    <input
+                        type="month"
+                        name="txtMes"
+                        id="txtMes"
+                    />
+                    <small>(Selecione mes e ano)</small>
+                </td>
+            </tr>
+
+            <!-- input week - seletor de semana -->
+
+            <tr>
+                <td>Semana de Ferias:</td>
+                <td>
+                    <input
+                        type="week"
+                        name="txtSemana"
+                        id="txtSemana"
+                    />
+                    <small>(Selecione a semana do ano)</small>
+                </td>
+            </tr>
+
+            <!-- secao: campos de selecao -->
+            <tr>
+                <td colspan="2" class="subsecao-titulo">
+                    Campos de Selecao de Escolha
+
+                </td>
+            </tr>
+
+            <!-- input color - seletor de cor -->
+             <tr>
+                <td>Cor Preferida:</td>
+                <td>
+                    <input 
+                        type="color"
+                        name="txtCor"
+                        id="txtCor"
+                        value="#4CAF50"
+                    />
+                    <small>(Clique para escolher uma cor)</small>
+                </td>
+             </tr>
+
+             <!-- input file - upload de arquivos -->
+              <tr>
+                <td>Foto de Perfil:</td>
+                <td>
+                    <input 
+                        type="file"
+                        name="fleFoto"
+                        id="fleFoto"
+                        accept="image/*"
+                    />
+                    <small>(Apenas imagens)</small>
+                </td>
+              </tr>
+
+
+
             <!-- botao provisorio para testar validacoes -->
              <tr>
                 <td colspan="2" align="right">
