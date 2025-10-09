@@ -1,43 +1,23 @@
-function atualizaOutIdade(){
-    document.getElementById('outIdade').value = document.getElementById('txtIdade').value;
+function alertaGenerico() {
+    alert("Botao clicado com sucesso!");
 }
-function atualizaOutSatisfacao(){
-    document.getElementById('outSatisfacao').value = document.getElementById('rngSatisfacao').value;
+
+function mostrarValor() {
+    alert("Valor do botao: " + document.getElementById("btnMostrar").value);
 }
-function outEqualizador(){
-    if (document.getElementById('rngGeral').value == 5){
-        document.getElementById('rngGrave').value = 5;
-        document.getElementById('rngGraveMedio').value = 0;
-        document.getElementById('rngMedio').value = 0;
-        document.getElementById('rngAgudoMedio').value = 0;
-        document.getElementById('rngAgudo').value = 0;
-    }
-    if (document.getElementById('rngGeral').value == 4){
-        document.getElementById('rngGrave').value = 0;
-        document.getElementById('rngGraveMedio').value = 5;
-        document.getElementById('rngMedio').value = 0;
-        document.getElementById('rngAgudoMedio').value = 0;
-        document.getElementById('rngAgudo').value = 0;
-    }
-    if (document.getElementById('rngGeral').value == 3){
-        document.getElementById('rngGrave').value = 0;
-        document.getElementById('rngGraveMedio').value = 0;
-        document.getElementById('rngMedio').value = 5;
-        document.getElementById('rngAgudoMedio').value = 0;
-        document.getElementById('rngAgudo').value = 0;
-    }
-    if (document.getElementById('rngGeral').value == 2){
-        document.getElementById('rngGrave').value = 0;
-        document.getElementById('rngGraveMedio').value = 0;
-        document.getElementById('rngMedio').value = 0;
-        document.getElementById('rngAgudoMedio').value = 5;
-        document.getElementById('rngAgudo').value = 0;
-    }
-    if (document.getElementById('rngGeral').value == 1){
-        document.getElementById('rngGrave').value = 0;
-        document.getElementById('rngGraveMedio').value = 0;
-        document.getElementById('rngMedio').value = 0;
-        document.getElementById('rngAgudoMedio').value = 0;
-        document.getElementById('rngAgudo').value = 5;
-    }
+
+function mudaCor() {
+    document.getElementById("btnMostrar").style.backgroundColor = "#008CBA";
+}
+
+function voltaCor() {
+    document.getElementById("btnMostrar").style.backgroundColor = "#4CAF50";
+}
+
+function atualizaOutputRange() {
+    document.getElementById('outputRange').value = document.getElementById('rngVolume').value;
+}
+
+function atualizaOutputNumber() {
+    document.getElementById('outputNumber').value = document.getElementById('numIdade').value;
 }
