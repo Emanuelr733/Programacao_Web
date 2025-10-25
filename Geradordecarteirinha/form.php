@@ -4,8 +4,7 @@ if (!isset($_SESSION['login'])) {
     $_SESSION['locked'] = 'Acesso bloqueado';
     header('location: index.php');
 }
-$mensagem = 'GERADOR DE CARTEIRINHA';
-$mensagem .= '<br>
+$mensagem = '<br>
     <!DOCTYPE html>
     <html lang="pt-BR">
     <head>

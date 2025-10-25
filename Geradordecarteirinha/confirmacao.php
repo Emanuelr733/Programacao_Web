@@ -107,69 +107,69 @@ echo '<!DOCTYPE html>
 <body>
 <div class="preview-container">';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    echo "<div class='campo'>";
+    echo '<div class="campo">';
     if (isset($_POST['txtNome']) && !empty($_POST['txtNome'])) {
-        echo "<span class='nome-campo'>Nome:</span>";
-        echo "<span class='valor-campo'>" . htmlspecialchars($_POST['txtNome']) . "</span>";
+        echo '<span class="nome-campo">Nome:</span>';
+        echo '<span class="valor-campo">' . htmlspecialchars($_POST['txtNome']) . '</span>';
         $_SESSION['txtNome']=$_POST['txtNome'];
     }
-    echo "</div>";
-    echo "<div class='campo'>";
+    echo '</div>';
+    echo '<div class="campo">';
     if (isset($_POST['dtaNascimento']) && !empty($_POST['dtaNascimento'])) {
-        echo "<span class='nome-campo'>Data de Nascimento:</span>";
+        echo '<span class="nome-campo">Data de Nascimento:</span>';
         $data = DateTime::createFromFormat('Y-m-d', $_POST['dtaNascimento']);
         $_SESSION['dtaNascimento']=$data->format('d/m/Y');
         if ($data) {
             echo $data->format('d/m/Y');
         }
     }
-    echo "</div>";
-    echo "<div class='campo'>";
+    echo '</div>';
+    echo '<div class="campo">';
     if (isset($_POST['txtCpf']) && !empty($_POST['txtCpf'])) {
-        echo "<span class='nome-campo'>CPF:</span>";
-        echo "<span class='valor-campo'>" . htmlspecialchars($_POST['txtCpf']) . "</span>";
+        echo '<span class="nome-campo">CPF:</span>';
+        echo '<span class="valor-campo">' . htmlspecialchars($_POST['txtCpf']) . '</span>';
         $_SESSION['txtCpf']=$_POST['txtCpf'];
     }
-    echo "</div>";
-    echo "<div class='campo'>";
+    echo '</div>';
+    echo '<div class="campo">';
     if (isset($_POST['slcCurso']) && !empty($_POST['slcCurso'])) {
-        echo "<span class='nome-campo'>Curso:</span>";
-        echo "<span class='valor-campo'>" . htmlspecialchars($_POST['slcCurso']) . "</span>";
+        echo '<span class="nome-campo">Curso:</span>';
+        echo '<span class="valor-campo">' . htmlspecialchars($_POST['slcCurso']) . '</span>';
         $_SESSION['slcCurso']=$_POST['slcCurso'];
     }
-    echo "</div>";
-    echo "<div class='campo'>";
+    echo '</div>';
+    echo '<div class="campo">';
     if (isset($_POST['txtMat']) && !empty($_POST['txtMat'])) {
-        echo "<span class='nome-campo'>Matr&iacute;cula:</span>";
-        echo "<span class='valor-campo'>" . htmlspecialchars($_POST['txtMat']) . "</span>";
+        echo '<span class="nome-campo">Matr&iacute;cula:</span>';
+        echo '<span class="valor-campo">' . htmlspecialchars($_POST['txtMat']) . '</span>';
         $_SESSION['txtMat']=$_POST['txtMat'];
     }
-    echo "</div>";
-    echo "<div class='campo'>";
+    echo '</div>';
+    echo '<div class="campo">';
     if (isset($_FILES['flFoto']) && $_FILES['flFoto']['error'] == 0) {
-        echo "<span class='nome-campo'>Foto:</span><br>";
-        echo "<div class='array'>";   
+        echo '<span class="nome-campo">Foto:</span><br>';
+        echo '<div class="array">';   
         $extensoes_imagem = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp');
         $extensao = strtolower(pathinfo($_FILES['flFoto']['name'], PATHINFO_EXTENSION));
             if (in_array($extensao, $extensoes_imagem)) {
                 $nomeArquivo = uniqid('foto  _') . '.' . $extensao;
                 $caminhoDestino = __DIR__ . '/img/' . $nomeArquivo; 
             if (move_uploaded_file($_FILES['flFoto']['tmp_name'], $caminhoDestino)) {
-                echo "<img src='img/$nomeArquivo' alt='Foto do usuário' style='max-width:200px;'>";
+                echo '<img src="img/'.$nomeArquivo.'" alt="Foto do usuário" width="180px" height="240px"">';
                 $_SESSION['flFoto'] = 'img/' . $nomeArquivo;
             } else {
-                echo "<p>Erro ao salvar a imagem.</p>";
+                echo '<p>Erro ao salvar a imagem.</p>';
         }
       }
-       echo "</div>";
+       echo '</div>';
     } elseif (isset($_FILES['flFoto']) && $_FILES['flFoto']['error'] != 0) {
-       echo "<span class='nome-campo'>Foto:</span>";
-       echo "<span class='vazio'>Erro no upload - codigo: " . $_FILES['flFoto']['error'] . "</span>";
+       echo '<span class="nome-campo">Foto:</span>';
+       echo '<span class="vazio">Erro no upload - codigo: ' . $_FILES['flFoto']['error'] . '</span>';
     } else {
-       echo "<span class='nome-campo'>flFoto (type=file):</span>";
-       echo "<span class='vazio'>Nenhum arquivo enviado</span>";
+       echo '<span class="nome-campo">flFoto (type=file):</span>';
+       echo '<span class="vazio">Nenhum arquivo enviado</span>';
     }
-    echo "</div>";
+    echo '</div>';
     echo '<html>
             <head></head>
             <body>
