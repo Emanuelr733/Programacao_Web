@@ -21,7 +21,6 @@ echo '<!DOCTYPE html>
             min-height:100vh;
             padding:20px;
         }
-
         .preview-container {
             background:white;
             padding:30px;
@@ -30,37 +29,31 @@ echo '<!DOCTYPE html>
             max-width:500px;
             width:100%;
         }
-
         .campo {
             margin-bottom:15px;
         }
-
         .nome-campo {
             font-weight:bold;
             color:#333;
         }
-
         .valor-campo {
             display:block;
             font-size:15px;
             color:#555;
             margin-top:3px;
         }
-
         .vazio {
             display:block;
             font-size:14px;
             color:#a00;
             margin-top:3px;
         }
-
         .foto-preview {
             margin-top:10px;
             max-width:200px;
             border-radius:12px;
             box-shadow:0 4px 15px rgba(0,0,0,0.2);
         }
-
         .btn-confirmar {
             display: inline-block;
             width: 100%;
@@ -81,7 +74,6 @@ echo '<!DOCTYPE html>
             position: relative;
             overflow: hidden;
         }
-
         .btn-confirmar::after {
             content: "";
             position: absolute;
@@ -93,11 +85,9 @@ echo '<!DOCTYPE html>
             transform: skewX(-20deg);
             transition: 0.5s;
         }
-
         .btn-confirmar:hover::after {
             left: 125%;
         }
-
         .btn-confirmar:hover {
             transform: scale(1.03);
             opacity:0.9;

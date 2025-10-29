@@ -23,7 +23,6 @@ echo '
                     padding: 0;
                     box-sizing: border-box;
                 }
-            
                 body {
                     font-family: Arial, sans-serif;
                     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -34,7 +33,6 @@ echo '
                     align-items: center;
                     padding: 20px;
                 }
-            
                 .carteirinha-container {
                     background: white;
                     width: 850px;
@@ -44,7 +42,6 @@ echo '
                     overflow: hidden;
                     position: relative;
                 }
-            
                 .faixa-verde {
                     position: absolute;
                     top: 130px;
@@ -54,7 +51,6 @@ echo '
                     background: linear-gradient(90deg, #002913, #00843D);
                     z-index: 1;
                 }
-            
                 table {
                     border-collapse: collapse;
                     width: 850px;
@@ -69,7 +65,6 @@ echo '
                     gap: 20px;
                     margin-top: 25px;
                 }
-
                 .btn {
                     font-size: 16px;
                     padding: 10px 18px;
@@ -79,17 +74,14 @@ echo '
                     transition: 0.2s ease;
                     font-weight: bold;
                 }
-
                 .btn-pdf {
                     background-color: #00843D;
                     color: white;
                 }
-
                 .btn-imprimir {
                     background-color: #004b23;
                     color: white;
                 }
-
                 .btn:hover {
                     opacity: 0.9;
                     transform: scale(1.02);
@@ -100,11 +92,9 @@ echo '
                         margin: 0;
                         padding: 0;
                     }
-
                     .botoes-container {
                         display: none !important;
                     }
-
                     .carteirinha-container {
                         box-shadow: none !important;
                         margin: 0 auto !important;
@@ -160,8 +150,7 @@ echo '
                         </td>  
                     </tr>
                     <tr>
-                        <td height="44px" style="padding-left: 15px;">
-                            
+                        <td height="44px" style="padding-left: 15px;">       
                         </td>
                         <td align="center" style="font-weight: bold; white-space: nowrap; font-size: 10px; vertical-align: bottom;">
                             <b>USO PESSOAL E INTRANSFER&Iacute;VEL</b>
@@ -186,10 +175,8 @@ echo '
                 <button class="btn btn-pdf" id="btnPdf">📄 Exportar para PDF</button>
                 <button class="btn btn-imprimir" id="btnImprimir">🖨️ Imprimir</button>
             </div>
-
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-            
             <script>
                 document.getElementById("btnPdf").addEventListener("click", async function() {
                 const botao = this;
@@ -197,37 +184,28 @@ echo '
                 botao.textContent = "⏳ Gerando PDF...";                
                 try {
                     const elemento = document.getElementById("carteirinha");
-                
-                    // Captura o tamanho real do elemento
                     const largura = elemento.offsetWidth;
                     const altura = elemento.offsetHeight;
-                
-                    // Gera o canvas com o tamanho exato e melhor qualidade
                     const canvas = await html2canvas(elemento, {
-                        scale: 3, // qualidade maior (3x)
-                        useCORS: true, // permite imagens externas
+                        scale: 3,
+                        useCORS: true,
                         backgroundColor: "#ffffff",
                         logging: false
                     });
-                
                     const imgData = canvas.toDataURL("image/png");
-                
                     const { jsPDF } = window.jspdf;
                     const pdf = new jsPDF({
                         orientation: "landscape",
                         unit: "px",
                         format: [largura, altura]
                     });
-                
                     pdf.addImage(imgData, "PNG", 0, 0, largura, altura);
                     pdf.save("carteirinha_ifmg_<?php echo $matricula; ?>.pdf");
-                
                     botao.disabled = false;
                     botao.textContent = "✅ PDF gerado!";
                     setTimeout(() => {
                         botao.textContent = "📄 Exportar para PDF";
                     }, 2000);
-                
                 } catch (erro) {
                     console.error("Erro completo:", erro);
                     alert("Erro: " + erro.message + "\n\nTente usar o botão Imprimir e salvar como PDF.");
@@ -235,7 +213,6 @@ echo '
                     botao.textContent = "📄 Exportar para PDF";
                 }
             });
-
             document.getElementById("btnImprimir").addEventListener("click", function() {
                 const carteirinha = document.getElementById("carteirinha").outerHTML;
                 const janela = window.open("", "_blank");

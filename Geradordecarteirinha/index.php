@@ -1,7 +1,6 @@
 <?php
 session_start();
-$mensagem = 'Fa&ccedil;a seu login no sistema';
-$mensagem .= '<br>
+$mensagem = 'Fa&ccedil;a seu login no sistema. <br>
     <form action="login.php" method="post">
         Login:<input type="text" name="txtLogin"><br>
         Senha:<input type="text" name="txtSenha"<br>
@@ -9,8 +8,7 @@ $mensagem .= '<br>
     </form>';
 if (isset($_SESSION['erro']))
 {
-    $mensagem = 'Seu login ou senha est&aacute; incorreto.';
-    $mensagem .= '<br>
+    $mensagem = 'Seu login ou senha est&aacute; incorreto.<br>
     <form action="login.php" method="post">
         Login:<input type="text" name="txtLogin"><br>
         Senha:<input type="text" name="txtSenha"<br>
@@ -19,10 +17,9 @@ if (isset($_SESSION['erro']))
 }
 if (isset($_SESSION['login']))
 {
-    $mensagem = 'Voc&ecirc; j&aacute; est&aacute; logado no sistema.';
-    $mensagem .= '<br><br>
-    <a href="form.php">Gerar Carteirinha</a>
-    <a href="logout.php">SAIR DO SISTEMA</a><br><br>';
+    $mensagem = 'Voc&ecirc; j&aacute; est&aacute; logado no sistema. <br><br>
+        <a href="form.php">Gerar Carteirinha</a>
+        <a href="logout.php">SAIR DO SISTEMA</a><br><br>';
 }
 ?>
 <html>
@@ -36,7 +33,6 @@ if (isset($_SESSION['login']))
                 padding: 0;
                 box-sizing: border-box;
             }
-            
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -46,7 +42,6 @@ if (isset($_SESSION['login']))
                 align-items: center;
                 padding: 20px;
             }
-            
             .container {
                 background: white;
                 padding: 40px;
@@ -56,11 +51,9 @@ if (isset($_SESSION['login']))
                 width: 100%;
                 text-align: center;
             }
-            
             .container form {
                 margin-top: 25px;
             }
-            
             .container input[type="text"] {
                 width: 100%;
                 padding: 12px 15px;
@@ -71,13 +64,11 @@ if (isset($_SESSION['login']))
                 transition: all 0.3s ease;
                 display: block;
             }
-            
             .container input[type="text"]:focus {
                 outline: none;
                 border-color: #667eea;
                 box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
             }
-            
             .container input[type="submit"] {
                 width: 100%;
                 padding: 12px;
@@ -91,16 +82,13 @@ if (isset($_SESSION['login']))
                 cursor: pointer;
                 transition: transform 0.2s ease, box-shadow 0.2s ease;
             }
-            
             .container input[type="submit"]:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
             }
-            
             .container input[type="submit"]:active {
                 transform: translateY(0);
             }
-            
             .container a {
                 display: inline-block;
                 margin: 8px 10px;
@@ -111,12 +99,10 @@ if (isset($_SESSION['login']))
                 border-radius: 6px;
                 transition: all 0.3s ease;
             }
-            
             .container a:hover {
                 background: #764ba2;
                 transform: translateY(-2px);
             }
-            
             .container a[href="logout.php"] {
                 background: #ef4444;
                 margin-top: 10px;
@@ -125,26 +111,21 @@ if (isset($_SESSION['login']))
                 margin-left: auto;
                 margin-right: auto;
             }
-            
             .container a[href="logout.php"]:hover {
                 background: #dc2626;
             }
-            
             .message {
                 font-size: 18px;
                 color: #333;
                 margin-bottom: 10px;
                 font-weight: 500;
             }
-            
             .error-message {
                 color: #ef4444;
             }
-            
             .success-message {
                 color: #10b981;
             }
-            
             label {
                 display: block;
                 text-align: left;

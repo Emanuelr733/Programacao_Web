@@ -18,7 +18,6 @@ $mensagem = '<br>
                 box-sizing: border-box;
                 font-family: "Segoe UI", Arial, sans-serif;
             }
-
             body {
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 display: flex;
@@ -29,7 +28,6 @@ $mensagem = '<br>
                 padding: 20px;
                 color: #333;
             }
-
             h1 {
                 color: #fff;
                 text-align: center;
@@ -38,7 +36,6 @@ $mensagem = '<br>
                 font-size: 2em;
                 letter-spacing: 1px;
             }
-
             .form-container {
                 background: #fff;
                 padding: 40px 50px;
@@ -48,24 +45,20 @@ $mensagem = '<br>
                 width: 100%;
                 animation: aparecer 0.4s ease-in-out;
             }
-
             @keyframes aparecer {
                 from { opacity: 0; transform: translateY(20px); }
                 to { opacity: 1; transform: translateY(0); }
             }
-
             form {
                 display: flex;
                 flex-direction: column;
                 gap: 18px;
             }
-
             label {
                 font-weight: bold;
                 color: #333;
                 margin-bottom: 5px;
             }
-
             input[type="text"],
             input[type="date"],
             input[type="file"],
@@ -77,19 +70,16 @@ $mensagem = '<br>
                 transition: 0.2s ease;
                 width: 100%;
             }
-
             input:focus,
             select:focus {
                 border-color: #667eea;
                 outline: none;
                 box-shadow: 0 0 5px rgba(102,126,234,0.5);
             }
-
             select optgroup {
                 font-weight: bold;
                 color: #444;
             }
-
             .btn-enviar {
                 background: linear-gradient(90deg, #002913, #00843D);
                 color:white;
@@ -106,7 +96,6 @@ $mensagem = '<br>
                 position: relative;
                 overflow: hidden;
             }
-
             .btn-enviar::after {
                 content: "";
                 position: absolute;
@@ -118,11 +107,9 @@ $mensagem = '<br>
                 transform: skewX(-20deg);
                 transition: 0.5s;
             }
-
             .btn-enviar:hover::after {
                 left: 125%;
             }
-
             .btn-enviar:hover {
                 transform: scale(1.03);
                 opacity:0.9;
@@ -157,30 +144,30 @@ $mensagem = '<br>
                     placeholder="123.456.789-00"
                     pattern="[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}"
                     required><br>
-            Curso:<select name="slcCurso">
-                         <optgroup label="T&eacute;cnico">
+            Curso:  <select name="slcCurso">
+                        <optgroup label="T&eacute;cnico">
                             <option value="T&eacute;cnico em Admnistra&ccedil;&atilde;o">Administra&ccedil;&atilde;o</option>
                             <option value="T&eacute;cnico em Agropecu&aacute;ria">Agropecu&aacute;ria</option>
                             <option value="T&eacute;cnico em Biotecnologia">Biotecnologia</option>
                             <option value="T&eacute;cnico em Eletromec&acirc;nica">Eletromec&acirc;nica</option>
                             <option value="T&eacute;cnico em Inform&aacute;tica">Inform&aacute;tica</option>
                             <option value="T&eacute;cnico em Meio Ambiente">Meio Ambiente</option>
-                         </optgroup>
-                         <optgroup label="Bacharelado">
+                        </optgroup>
+                        <optgroup label="Bacharelado">
                             <option value="Bacharelado em Administra&ccedil;&atilde;o">Administra&ccedil;&atilde;o</option>
                             <option value="Bacharelado em Agronomia">Agronomia</option>
                             <option value="Bacharelado em Engenharia de Computa&ccedil;&atilde;o">Engenharia de Computa&ccedil;&atilde;o</option>
                             <option value="Bacharelado em Engenharia de Produ&ccedil;&atilde;o">Engenharia de Produ&ccedil;&atilde;o</option>
                             <option value="Bacharelado em Medicina Veterin&aacute;ria">Medicina Veterin&aacute;ria</option>
                             <option value="Bacharelado em Zootecnia">Zootecnia</option>
-                         </optgroup>
-                         <optgroup label="Licenciatura">
+                        </optgroup>
+                        <optgroup label="Licenciatura">
                             <option value="Licenciatura em F&iacute;sica">F&iacute;sica</option>
                             <option value="Licenciatura em Ci&ecirc;ncias Biol&oacute;gicas">Ci&ecirc;ncias Biol&oacute;gicas</option>
                             <option value="Licenciatura em Educa&ccedil;&atilde;o F&iacute;sica">Educa&ccedil;&atilde;o F&iacute;sica</option>
-                         </optgroup>
-                      </select>
-                      <br>
+                        </optgroup>
+                    </select>
+                    <br>
             Matr&iacute;cula:<input 
                     type="text"
                     name="txtMat"
