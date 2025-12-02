@@ -9,7 +9,6 @@ $login = $_POST['txtLogin'];
 $senhas = $_POST['txtSenha'];
 $perfil = $_POST['slcPerfil'];
 $foto = $_FILES['txtFoto'];
-
 require('conexao.php');
 $sql = 'UPDATE tb_usuario
         SET 
