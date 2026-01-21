@@ -1,69 +1,103 @@
 <?php
-// Arquivo: model/clsUsuario.php
-
-// Importa a classe de conexão que acabamos de criar
 require_once '../controller/clsConexao.php';
 
 class clsUsuario
 {
-    # VARIAVEIS PRIVADAS (Espelho da tabela 'usuarios' do banco)
     private $id;
     private $nome;
     private $email;
     private $senha;
-    private $perfil; // 'admin' ou 'atleta'
+    private $perfil; 
+    private $foto_perfil;
     
-    # PROPRIEDADES (Getters e Setters)
-    
-    public function setId($valor) { $this->id = $valor; }
+    private $conexao;
+
+    public function __construct()
+    {
+        $this->conexao = new clsConexao();
+    }
+
+    // Getters e Setters
+    public function setId($v) { $this->id = $v; }
     public function getId() { return $this->id; }
-
-    public function setNome($valor) { $this->nome = $valor; }
-    public function getNome() { return $this->nome; }
-
-    public function setEmail($valor) { $this->email = $valor; }
-    public function getEmail() { return $this->email; }
-
-    public function setSenha($valor) { $this->senha = $valor; }
-    public function getSenha() { return $this->senha; }
-
-    public function setPerfil($valor) { $this->perfil = $valor; }
-    public function getPerfil() { return $this->perfil; }
-
-    # METODOS
     
-    /* Método para verificar login */
+    public function setNome($v) { $this->nome = $v; }
+    public function getNome() { return $this->nome; }
+    
+    public function setEmail($v) { $this->email = $v; }
+    public function getEmail() { return $this->email; }
+    
+    public function setSenha($v) { $this->senha = $v; }
+    
+    public function setPerfil($v) { $this->perfil = $v; }
+    public function getPerfil() { return $this->perfil; }
+    
+    public function setFotoPerfil($v) { $this->foto_perfil = $v; }
+    public function getFotoPerfil() { return $this->foto_perfil; }
+
+    public function cadastrar()
+    {
+        $nome   = mysqli_real_escape_string($this->conexao->getConexao(), $this->nome);
+        $email  = mysqli_real_escape_string($this->conexao->getConexao(), $this->email);
+        $perfil = mysqli_real_escape_string($this->conexao->getConexao(), $this->perfil);
+        $foto   = mysqli_real_escape_string($this->conexao->getConexao(), $this->foto_perfil);
+
+        // 2. CRÍTICO: Criptografar a senha antes de salvar
+        // Se salvar sem hash, o password_verify do login NUNCA vai funcionar.
+        $senhaHash = password_hash($this->senha, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO usuarios (nome, email, senha, perfil, foto_perfil) 
+                VALUES ('$nome', '$email', '$senhaHash', '$perfil', '$foto')";
+        
+        $this->conexao->executaSQL($sql);
+        
+        return $this->conexao->ultimoID();
+    }
+
     public function logar()
     {
-        $conexao = new clsConexao();
-        
-        // Busca o usuário pelo e-mail
-        $sql = "SELECT * FROM usuarios WHERE email = '$this->email'";
-        $resultado = $conexao->executaSQL($sql);
+        $email = mysqli_real_escape_string($this->conexao->getConexao(), $this->email);
 
-        // Se achou alguém com esse email
+        $sql = "SELECT * FROM usuarios WHERE email = '$email'";
+        $resultado = $this->conexao->executaSQL($sql);
+
         if (mysqli_num_rows($resultado) > 0) {
             $dados = mysqli_fetch_assoc($resultado);
             
-            // Verifica a senha (usando hash seguro)
-            // Se a senha no banco bater com a senha digitada:
+            // Verifica se a senha digitada ($this->senha) bate com o hash do banco
             if (password_verify($this->senha, $dados['senha'])) {
-                // Preenche os dados deste objeto com o que veio do banco
-                $this->id     = $dados['id'];
-                $this->nome   = $dados['nome'];
-                $this->perfil = $dados['perfil'];
-                return true; // Login Sucesso
+                
+                // Preenche o objeto com os dados do banco
+                $this->id          = $dados['id'];
+                $this->nome        = $dados['nome'];
+                $this->perfil      = $dados['perfil'];
+                $this->foto_perfil = $dados['foto_perfil'];
+                
+                return true; 
             }
         }
-        return false; // Login Falhou
+        return false;
     }
-    // Método para alterar a senha
+
+    public function verificarSenhaAtual($senha_plana)
+    {
+        $id = (int)$this->id;
+        $sql = "SELECT senha FROM usuarios WHERE id = $id";
+        $resultado = $this->conexao->executaSQL($sql);
+        
+        if ($dados = mysqli_fetch_assoc($resultado)) {
+            // Compara a senha digitada com o hash do banco
+            return password_verify($senha_plana, $dados['senha']);
+        }
+        return false;
+    }
+
     public function atualizarSenha($nova_senha_hash)
     {
-        $conexao = new clsConexao();
-        // Atualiza a senha onde o ID for igual ao ID deste objeto
-        $sql = "UPDATE usuarios SET senha = '$nova_senha_hash' WHERE id = $this->id";
-        return $conexao->executaSQL($sql);
+        $id = (int)$this->id;
+        
+        $sql = "UPDATE usuarios SET senha = '$nova_senha_hash' WHERE id = $id";
+        return $this->conexao->executaSQL($sql);
     }
 }
 ?>

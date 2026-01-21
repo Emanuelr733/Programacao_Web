@@ -1,124 +1,248 @@
 <?php
-// Arquivo: view/treino_detalhes.php
 session_start();
 if (!isset($_SESSION['id_usuario'])) { header('Location: login.php'); exit(); }
-
-// Se não veio o ID do treino na URL, volta pro menu
-if (!isset($_GET['id_treino'])) { header('Location: meus_treinos.php'); exit(); }
-
+if (!isset($_GET['id_treino'])) { header('Location: rotinas.php'); exit(); }
 $id_treino = $_GET['id_treino'];
-
-// Importa os Models necessários
+$foto_user = isset($_SESSION['foto_usuario']) ? $_SESSION['foto_usuario'] : 'padrao.png';
 require_once '../model/clsExercicio.php';
 require_once '../model/clsItemTreino.php';
-
-// 1. Busca lista de exercícios para preencher o <select>
+require_once '../model/clsTreino.php';
+require_once '../model/clsSerie.php';
+$objTreino = new clsTreino();
+$dadosTreino = $objTreino->buscarPorId($id_treino);
 $objExercicio = new clsExercicio();
-$listaExercicios = $objExercicio->listar();
-
-// 2. Busca os itens que já foram adicionados neste treino
+$todosExercicios = $objExercicio->listar();
 $objItem = new clsItemTreino();
 $meusItens = $objItem->listarDoTreino($id_treino);
+$totalExercicios = mysqli_num_rows($meusItens);
+$totalSeries = 0;
+$arrayItens = [];
+while($row = mysqli_fetch_assoc($meusItens)) {
+    $totalSeries += $row['series'];
+    $arrayItens[] = $row;
+}
+$listaMusculos = ['Peitoral Superior', 'Peitoral Médio', 'Peitoral Inferior', 'Deltoide Anterior', 'Deltoide Lateral', 'Deltoide Posterior', 'Dorsais', 'Costas Superiores', 'Trapézio', 'Lombar', 'Bíceps', 'Tríceps', 'Antebraço', 'Abdômen Superior', 'Abdômen Inferior', 'Oblíquos', 'Quadríceps', 'Posterior de Coxa', 'Glúteo', 'Adutores', 'Abdutores', 'Panturrilha'];
+$listaEquipamentos = ["Nenhum", "Barra", "Anilha", "Haltere", "Máquina", "Outro"];
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>SudoLift - Treinando</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; }
-        
-        .card-form { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        
-        /* Layout do formulário lado a lado */
-        .form-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .form-group { flex: 1; min-width: 100px; }
-        
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;}
-        label { font-size: 12px; font-weight: bold; color: #555; }
-        
-        .btn-add { background-color: #007bff; color: white; border: none; padding: 10px; width: 100%; border-radius: 4px; cursor: pointer; margin-top: 22px; }
-        .btn-concluir { display: block; background-color: #28a745; color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; margin-top: 20px;}
-        
-        /* Tabela dos itens já feitos */
-        .item-lista { background: white; padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .item-info { font-size: 16px; font-weight: bold; }
-        .item-detalhe { font-size: 14px; color: #666; }
-        .btn-remove { color: red; text-decoration: none; font-weight: bold; border: 1px solid red; padding: 5px 10px; border-radius: 4px; }
-    </style>
+    <title>SudoLift - Editor de Rotina</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/treino_detalhes.css">
 </head>
 <body>
-
-<div class="container">
-    <h2>Registrando Treino</h2>
-
-    <div class="card-form">
-        <form action="../controller/ctrl_ItemTreino.php" method="POST">
+    <div class="center-panel">
+        <div class="center-header">
+            <?php
+            if (isset($_SESSION['rascunho_id']) && $_SESSION['rascunho_id'] == $id_treino) {
+                $linkVoltar = "../controller/ctrl_Treino.php?acao=excluir_treino&id=$id_treino";
+                $textoVoltar = "Cancelar e Descartar";
+            } else {
+                $linkVoltar = "rotinas.php";
+                $textoVoltar = "Voltar para Rotinas";
+            }
+            ?>
+            <a href="<?php echo $linkVoltar; ?>" class="back-link">
+                <i class="fas fa-arrow-left"></i> <?php echo $textoVoltar; ?>
+            </a>
+            <button class="btn-salvar" onclick="document.getElementById('formTreino').submit()">Salvar Rotina</button>
+        </div>
+        <form id="formTreino" method="POST" action="../controller/ctrl_ItemTreino.php" style="display: flex; flex-direction: column; height: 100%;">
+            <input type="hidden" name="acao" value="atualizar_tudo">
             <input type="hidden" name="treino_id" value="<?php echo $id_treino; ?>">
-            
-            <div class="form-row">
-                <div class="form-group" style="flex: 3;"> <label>Exercício:</label>
-                    <select name="exercicio_id" required>
-                        <option value="">Selecione...</option>
-                        <?php
-                        // Preenche o dropdown com o banco de dados
-                        while($ex = mysqli_fetch_assoc($listaExercicios)) {
-                            echo "<option value='" . $ex['id'] . "'>" . $ex['nome'] . " (" . $ex['grupo_muscular'] . ")</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>Carga (kg):</label>
-                    <input type="number" name="carga" step="0.5" placeholder="Kg" required>
-                </div>
+            <input type="hidden" name="id_exercicio_add" id="id_exercicio_add" value="">
+            <div style="padding: 10px 30px 0 30px;">
+                <input type="text" name="nome_treino" class="rotina-nome-input" 
+                       value="<?php echo $dadosTreino['nome_treino']; ?>" 
+                       placeholder="Nome da Rotina (Ex: Treino A)">
             </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Séries:</label>
-                    <input type="number" name="series" value="3" required>
-                </div>
-                <div class="form-group">
-                    <label>Reps:</label>
-                    <input type="number" name="repeticoes" value="10" required>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn-add">+ Adicionar</button>
-                </div>
+            <div class="center-content">
+                <?php if(empty($arrayItens)): ?>
+                    <div style="text-align:center; margin-top:50px; color:#999;">
+                        <i class="fas fa-dumbbell" style="font-size:40px; margin-bottom:15px; opacity:0.3;"></i>
+                        <p>Rotina vazia.</p>
+                        <p>Adicione exercícios usando a lista da direita (+).</p>
+                    </div>
+                <?php else: ?>
+                    <div style="margin-top: 20px;">
+                        <?php foreach($arrayItens as $item): ?>
+                            <?php 
+                                $imgEx = "../assets/images/exercises/sem_imagem.png"; 
+                                mysqli_data_seek($todosExercicios, 0); 
+                                while($busca = mysqli_fetch_assoc($todosExercicios)) {
+                                    if($busca['id'] == $item['exercicio_id'] && !empty($busca['imagem'])) {
+                                        $imgEx = "../assets/images/exercises/" . $busca['imagem']; break;
+                                    }
+                                }
+                                $objSerie = new clsSerie();
+                                $listaSeries = $objSerie->listarPorItem($item['id']);
+                            ?>
+                            <div class="item-card">
+                                <div class="card-header">
+                                    <div class="header-left">
+                                        <?php if(strpos($imgEx, '.mp4') !== false): ?> 
+                                            <video src="<?php echo $imgEx; ?>" class="card-img"></video>
+                                        <?php else: ?> 
+                                            <img src="<?php echo $imgEx; ?>" class="card-img"> 
+                                        <?php endif; ?>
+                                        <div>
+                                            <h4 style="margin:0; color:#333;"><?php echo $item['nome_exercicio']; ?></h4>
+                                            <span style="font-size:12px; color:#777;"><?php echo $item['grupo_muscular']; ?></span>
+                                        </div>
+                                    </div>
+                                    <a href="../controller/ctrl_ItemTreino.php?acao=excluir&id_item=<?php echo $item['id']; ?>&id_treino=<?php echo $id_treino; ?>" class="btn-delete">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                                <div class="card-notes">
+                                    <div>
+                                        <label class="input-label">Observações</label>
+                                        <textarea name="itens_pai[<?php echo $item['id']; ?>][obs]" class="note-input" rows="2"><?php echo isset($item['observacao']) ? $item['observacao'] : ''; ?></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="input-label">Descanso</label>
+                                        <input type="text" name="itens_pai[<?php echo $item['id']; ?>][descanso]" class="time-input" placeholder="00:00" oninput="mascaraTempo(this)" value="<?php echo isset($item['descanso']) ? $item['descanso'] : ''; ?>">
+                                    </div>
+                                </div>
+                                <table class="set-table">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%">SET</th>
+                                            <th>KG</th>
+                                            <th>REPS</th>
+                                            <th width="10%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $contador = 1;
+                                        while($serie = mysqli_fetch_assoc($listaSeries)): 
+                                        ?>
+                                        <tr>
+                                            <td><span class="set-number"><?php echo $contador++; ?></span></td>
+                                            <td>
+                                                <input type="text" 
+                                                       name="series_individuais[<?php echo $serie['id']; ?>][carga]" 
+                                                       class="input-mini" 
+                                                       value="<?php echo $serie['carga_kg']; ?>">
+                                            </td>
+                                            <td>
+                                                <input type="text" 
+                                                       name="series_individuais[<?php echo $serie['id']; ?>][reps]" 
+                                                       class="input-mini" 
+                                                       value="<?php echo $serie['repeticoes']; ?>">
+                                            </td>
+                                            <td>
+                                                <a href="../controller/ctrl_ItemTreino.php?acao=remove_set&id_item=<?php echo $item['id']; ?>&id_treino=<?php echo $id_treino; ?>" class="btn-remove-row">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <?php endwhile; ?>
+                                    </tbody>
+                                </table>
+                                <a href="../controller/ctrl_ItemTreino.php?acao=add_set&id_item=<?php echo $item['id']; ?>&id_treino=<?php echo $id_treino; ?>" style="text-decoration:none;">
+                                    <button type="button" class="btn-add-set">+ Adicionar Série</button>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </div>
         </form>
     </div>
-
-    <h3>Histórico de hoje:</h3>
-    <div style="background: white; border-radius: 8px; overflow: hidden;">
-        <?php
-        if (mysqli_num_rows($meusItens) > 0) {
-            while ($item = mysqli_fetch_assoc($meusItens)) {
-                echo "<div class='item-lista'>";
-                
-                echo "<div>";
-                echo "<div class='item-info'>" . $item['nome_exercicio'] . "</div>";
-                echo "<div class='item-detalhe'>" . $item['series'] . " séries x " . $item['repeticoes'] . " reps | Carga: " . $item['carga_kg'] . "kg</div>";
-                echo "</div>";
-
-                // Botão de Excluir Item
-                echo "<a href='../controller/ctrl_ItemTreino.php?acao=excluir&id_item=" . $item['id'] . "&id_treino=$id_treino' class='btn-remove'>X</a>";
-                
-                echo "</div>";
-            }
-        } else {
-            echo "<p style='padding:20px; text-align:center; color:#777;'>Nenhum exercício registrado ainda.</p>";
-        }
-        ?>
+    <div class="right-panel">
+        <div class="summary-box">
+            <div class="stat-item">
+                <div class="stat-title">Exercícios</div>
+                <div class="stat-value"><?php echo $totalExercicios; ?></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-title">Séries</div>
+                <div class="stat-value"><?php echo $totalSeries; ?></div>
+            </div>
+        </div>
+        <div class="library-title">ADICIONAR EXERCÍCIO</div>
+        <div class="library-filters">
+            <div class="filter-row">
+                <select id="filtroMusculo" class="lib-select" onchange="filtrarBiblioteca()">
+                    <option value="">Todos Músculos</option>
+                    <?php foreach($listaMusculos as $m): ?>
+                        <option value="<?php echo strtolower($m); ?>"><?php echo $m; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                    
+                <select id="filtroEquip" class="lib-select" onchange="filtrarBiblioteca()">
+                    <option value="">Equipamento</option>
+                    <?php foreach($listaEquipamentos as $e): ?>
+                        <option value="<?php echo $e; ?>"><?php echo $e; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <input type="text" id="buscaExercicio" class="lib-search" placeholder="Buscar exercício..." onkeyup="filtrarBiblioteca()">
+        </div>
+        <div class="library-list">
+            <?php
+            mysqli_data_seek($todosExercicios, 0);
+            while($ex = mysqli_fetch_assoc($todosExercicios)): 
+                $img = "https://via.placeholder.com/50";
+                if (!empty($ex['imagem']) && file_exists("../assets/images/exercises/" . $ex['imagem'])) {
+                    $img = "../assets/images/exercises/" . $ex['imagem'];
+                }
+            ?>
+                <div class="lib-item"
+                     data-nome="<?php echo strtolower($ex['nome']); ?>"
+                     data-musculo="<?php echo $ex['grupo_muscular']; ?>"
+                     data-equip="<?php echo $ex['equipamento']; ?>">
+                    <?php if(strpos($img, '.mp4') !== false): ?>
+                        <video src="<?php echo $img; ?>" class="lib-img"></video>
+                    <?php else: ?>
+                        <img src="<?php echo $img; ?>" class="lib-img">
+                    <?php endif; ?>
+                    <div class="lib-info">
+                        <span class="lib-name"><?php echo $ex['nome']; ?></span>
+                        <span class="lib-group"><?php echo $ex['grupo_muscular']; ?></span>
+                    </div>
+                    <button type="button" class="btn-add" style="border:none; cursor:pointer;" onclick="adicionarExercicio(<?php echo $ex['id']; ?>)">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            <?php endwhile; ?>
+        </div>
     </div>
-
-    <a href="meus_treinos.php" class="btn-concluir">✓ Finalizar Treino</a>
-
-</div>
-
+    <script>
+        function adicionarExercicio(id) {
+            document.getElementById('id_exercicio_add').value = id;
+            document.getElementById('formTreino').submit();
+        }
+        function mascaraTempo(input) {
+            var valor = input.value.replace(/\D/g, "");
+            if (valor.length > 4) valor = valor.slice(0, 4);
+            if (valor.length > 2) {
+                valor = valor.slice(0, 2) + ":" + valor.slice(2);
+            }
+            input.value = valor;
+        }
+        function filtrarBiblioteca() {
+    var texto = document.getElementById('buscaExercicio').value.toLowerCase();
+    var musculo = document.getElementById('filtroMusculo').value.toLowerCase();
+    var equip = document.getElementById('filtroEquip').value;
+    var itens = document.getElementsByClassName('lib-item');
+    for (var i = 0; i < itens.length; i++) {
+        var item = itens[i];
+        var nomeItem = (item.getAttribute('data-nome') || '').toLowerCase();
+        var musculoItem = (item.getAttribute('data-musculo') || '').toLowerCase();
+        var equipItem = item.getAttribute('data-equip');
+        var mostrar = true;
+        if (texto !== "" && !nomeItem.includes(texto)) mostrar = false;
+        if (musculo !== "" && !musculoItem.includes(musculo)) mostrar = false;
+        if (equip !== "" && equipItem !== equip) mostrar = false;
+        item.style.display = mostrar ? "flex" : "none";
+    }
+}
+    </script>
 </body>
 </html>

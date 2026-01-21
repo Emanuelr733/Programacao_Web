@@ -2,40 +2,71 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SudoLift - Entrar</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/login.css">
+    
     <style>
-        /* Um estilo simples e limpo para parecer profissional */
-        body { font-family: Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 300px; text-align: center; }
-        input[type="email"], input[type="password"] { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        button:hover { background-color: #0056b3; }
-        .erro { color: red; font-size: 14px; margin-bottom: 10px; }
+        .erro-msg {
+            background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
+            padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-size: 14px;
+        }
+        .success-msg {
+            background: #d4edda; color: #155724; border: 1px solid #c3e6cb;
+            padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-size: 14px;
+        }
     </style>
 </head>
 <body>
+    <div class="main-wrapper">
+        <div class="box-container">
+            <div class="brand">
+                <i class="fas fa-dumbbell"></i>
+                <h2>SudoLift</h2>
+            </div>
+            <p class="subtitle">Faça login para treinar</p>
 
-    <div class="login-container">
-        <h2>SudoLift</h2>
-        <p>Faça login para treinar</p>
+            <?php
+            // MENSAGEM DE SUCESSO (Vindo do Cadastro)
+            if (isset($_GET['msg']) && $_GET['msg'] == 'cadastrado') {
+                echo '<div class="success-msg"><i class="fas fa-check-circle"></i> Conta criada com sucesso! Faça login.</div>';
+            }
 
-        <?php
-        // Mostra mensagem de erro se o Controller devolver ?erro=1 na URL
-        if (isset($_GET['erro'])) {
-            echo '<div class="erro">E-mail ou senha incorretos!</div>';
-        }
-        ?>
+            // MENSAGENS DE ERRO (Vindo do Controller)
+            if (isset($_GET['erro'])) {
+                $textoErro = "E-mail ou senha incorretos!";
+                
+                // Tratamento para campo vazio (adicionado no controller otimizado)
+                if ($_GET['erro'] == 'vazio') {
+                    $textoErro = "Por favor, preencha todos os campos.";
+                }
+                
+                echo '<div class="erro-msg"><i class="fas fa-exclamation-circle"></i> ' . $textoErro . '</div>';
+            }
+            ?>
 
-        <form action="../controller/ctrl_Login.php" method="POST">
-            
-            <input type="email" name="email" placeholder="Seu E-mail" required>
-            
-            <input type="password" name="senha" placeholder="Sua Senha" required>
-            
-            <button type="submit">Entrar</button>
-        
-        </form>
+            <form action="../controller/ctrl_Login.php" method="POST">
+                
+                <div class="input-group">
+                    <i class="fas fa-envelope icon"></i>
+                    <input type="email" name="email" placeholder="Seu E-mail" required>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" name="senha" placeholder="Sua Senha" required>
+                </div>
+
+                <button type="submit" class="btn-login">
+                    ENTRAR <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="footer-links">
+                <p>Não tem uma conta? <a href="cadastro.php">Cadastre-se aqui</a></p>
+            </div>
+        </div>
     </div>
-
 </body>
 </html>
